@@ -24,7 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.abhi.barcode.fragment.interfaces.IMCXConstants;
+import com.abhi.barcode.fragment.interfaces.IConstants;
 import com.abhi.barcode.fragment.library.BarCodeFragment;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -35,7 +35,7 @@ import com.google.zxing.client.android.camera.CameraManager;
  *
  * @author dswitkin@google.com (Daniel Switkin)
  */
-public final class BarCodeHandler extends Handler implements IMCXConstants {
+public final class BarCodeHandler extends Handler implements IConstants {
 
   private static final String TAG = BarCodeHandler.class.getSimpleName();
 

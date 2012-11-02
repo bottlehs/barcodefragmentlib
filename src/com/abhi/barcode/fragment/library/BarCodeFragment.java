@@ -24,16 +24,16 @@ import android.view.ViewGroup;
 
 import com.abhi.barcode.fragment.barcode.BarCodeHandler;
 import com.abhi.barcode.fragment.barcode.ViewfinderView;
-import com.abhi.barcode.fragment.dialogs.IMCXDialogCreator;
-import com.abhi.barcode.fragment.dialogs.MCXMessageDialogs;
-import com.abhi.barcode.fragment.interfaces.IMCXConstants;
+import com.abhi.barcode.fragment.dialogs.IDialogCreator;
+import com.abhi.barcode.fragment.dialogs.MessageDialogs;
+import com.abhi.barcode.fragment.interfaces.IConstants;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
 
 public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
-		IMCXConstants, IMCXDialogCreator {
+		IConstants, IDialogCreator {
 
 	private static final String TAG = BarCodeFragment.class.getSimpleName();
 
@@ -185,7 +185,7 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				MCXMessageDialogs dialogs = new MCXMessageDialogs(
+				MessageDialogs dialogs = new MessageDialogs(
 						BarCodeFragment.this, 0);
 				dialogs.show(getFragmentManager(), TAG);
 				stopCameraCapture();

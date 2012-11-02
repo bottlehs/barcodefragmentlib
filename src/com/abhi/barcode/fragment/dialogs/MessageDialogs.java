@@ -4,12 +4,12 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-public class MCXMessageDialogs extends DialogFragment {
+public class MessageDialogs extends DialogFragment {
 	
-	private IMCXDialogCreator mCreator;
+	private IDialogCreator mCreator;
 	private int mWhat;
 	
-	public MCXMessageDialogs(IMCXDialogCreator creator, int what) {
+	public MessageDialogs(IDialogCreator creator, int what) {
 		mCreator = creator;
 		mWhat = what;
 	}

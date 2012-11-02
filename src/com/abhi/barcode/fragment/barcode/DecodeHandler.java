@@ -16,7 +16,7 @@
 
 package com.abhi.barcode.fragment.barcode;
 
-import com.abhi.barcode.fragment.interfaces.IMCXConstants;
+import com.abhi.barcode.fragment.interfaces.IConstants;
 import com.abhi.barcode.fragment.library.BarCodeFragment;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -33,7 +33,7 @@ import android.util.Log;
 
 import java.util.Map;
 
-final class DecodeHandler extends Handler  implements IMCXConstants{
+final class DecodeHandler extends Handler  implements IConstants{
 
   private static final String TAG = DecodeHandler.class.getSimpleName();
 

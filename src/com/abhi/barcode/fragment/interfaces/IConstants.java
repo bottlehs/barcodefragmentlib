@@ -1,6 +1,6 @@
 package com.abhi.barcode.fragment.interfaces;
 
-public interface IMCXConstants {
+public interface IConstants {
 	String LOG_NAME = "LOG_NAME";	
 	int DECODE = 0;
 	int QUIT = 1;
