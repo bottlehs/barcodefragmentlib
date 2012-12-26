@@ -6,7 +6,6 @@ import java.util.Collection;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -27,13 +26,14 @@ import com.abhi.barcode.fragment.barcode.ViewfinderView;
 import com.abhi.barcode.fragment.dialogs.IDialogCreator;
 import com.abhi.barcode.fragment.dialogs.MessageDialogs;
 import com.abhi.barcode.fragment.interfaces.IConstants;
+import com.abhi.barcode.fragment.interfaces.IResultCallback;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
 
-public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
-		IConstants, IDialogCreator {
+public class BarCodeFragment extends Fragment implements
+		SurfaceHolder.Callback, IConstants, IDialogCreator {
 
 	private static final String TAG = BarCodeFragment.class.getSimpleName();
 
@@ -45,6 +45,7 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 	private Collection<BarcodeFormat> decodeFormats;
 	private String characterSet;
 	private boolean runCamera = false;
+	private IResultCallback mCallBack;
 
 	public ViewfinderView getViewfinderView() {
 		return viewfinderView;
@@ -105,13 +106,12 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 		return c;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onResume() {
 		super.onResume();
 		if (runCamera && hasSurface) {
 			startCameraCampure();
-		}else if(runCamera){
+		} else if (runCamera) {
 			SurfaceView surfaceView = (SurfaceView) getView().findViewById(
 					R.id.cameraView);
 			SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -153,8 +153,8 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 		}
 		if (!hasSurface) {
 			hasSurface = true;
-			if(runCamera)
-			 startCameraCampure();
+			if (runCamera)
+				startCameraCampure();
 		}
 	}
 
@@ -182,15 +182,19 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 		drawResultPoints(barcode, rawResult);
 		Log.e(TAG, "Value recived: " + rawResult.getText());
 		lastResult = rawResult;
-		mHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				MessageDialogs dialogs = new MessageDialogs(
-						BarCodeFragment.this, 0);
-				dialogs.show(getFragmentManager(), TAG);
-				stopCameraCapture();
-			}
-		});
+		if (mCallBack != null) {
+			mCallBack.result(lastResult);
+		} else {
+			mHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					MessageDialogs dialogs = new MessageDialogs(
+							BarCodeFragment.this, 0);
+					dialogs.show(getFragmentManager(), TAG);
+					stopCameraCapture();
+				}
+			});
+		}
 
 	}
 
@@ -244,8 +248,8 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 		try {
 			cameraManager.openDriver(surfaceHolder, v);
 			if (handler == null) {
-				handler = new BarCodeHandler(this, decodeFormats,
-						characterSet, cameraManager);
+				handler = new BarCodeHandler(this, decodeFormats, characterSet,
+						cameraManager);
 			}
 			decodeOrStoreSavedBitmap(null, null);
 		} catch (IOException ioe) {
@@ -279,7 +283,7 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//TODO Add your handling here
+						// DO NOTHING
 					}
 				}).setNegativeButton("Scan Again",
 				new DialogInterface.OnClickListener() {
@@ -289,5 +293,13 @@ public class BarCodeFragment extends Fragment implements SurfaceHolder.Callback,
 					}
 				});
 		return builder.create();
+	}
+
+	public IResultCallback getmCallBack() {
+		return mCallBack;
+	}
+
+	public void setmCallBack(IResultCallback mCallBack) {
+		this.mCallBack = mCallBack;
 	}
 }

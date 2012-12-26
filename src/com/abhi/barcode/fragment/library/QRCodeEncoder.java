@@ -19,7 +19,6 @@ package com.abhi.barcode.fragment.library;
 import java.util.EnumMap;
 import java.util.Map;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.google.zxing.BarcodeFormat;
@@ -39,16 +38,14 @@ public final class QRCodeEncoder {
 	private static final int WHITE = 0xFFFFFFFF;
 	private static final int BLACK = 0xFF000000;
 
-	private final Context activity;
 	private String contents;
 	private String displayContents;
 	private String title;
 	private BarcodeFormat format;
 	private final int dimension;
 
-	public QRCodeEncoder(Context activity, String data, int dimension)
+	public QRCodeEncoder(String data, int dimension)
 			throws WriterException {
-		this.activity = activity;
 		this.dimension = dimension;
 		encodeContentsFromZXingIntent(data);
 	}
