@@ -46,6 +46,11 @@ public class BarCodeFragment extends Fragment implements
 	private String characterSet;
 	private boolean runCamera = false;
 	private IResultCallback mCallBack;
+	private boolean cameraActive = false;;
+	
+	public boolean isCameraActive() {
+		return cameraActive;
+	}
 
 	public ViewfinderView getViewfinderView() {
 		return viewfinderView;
@@ -75,6 +80,7 @@ public class BarCodeFragment extends Fragment implements
 		}
 		decodeFormats = null;
 		characterSet = null;
+		cameraActive = true;
 	}
 
 	public void stopCameraCapture() {
@@ -89,6 +95,7 @@ public class BarCodeFragment extends Fragment implements
 			SurfaceHolder surfaceHolder = surfaceView.getHolder();
 			surfaceHolder.removeCallback(BarCodeFragment.this);
 		}
+		cameraActive = false;
 	}
 
 	public CameraManager getCameraManager() {
