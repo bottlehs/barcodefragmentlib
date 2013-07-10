@@ -78,9 +78,16 @@ final class CameraConfigurationManager {
 		}
 		String focusMode = findSettableValue(
 				parameters.getSupportedFocusModes(),
-				"continuous-picture",
-				Camera.Parameters.FOCUS_MODE_AUTO,
-				Camera.Parameters.FOCUS_MODE_MACRO);
+				 "continuous-picture", // Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE in 4.0+
+         "continuous-video",   // Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO in 4.0+
+        Camera.Parameters.FOCUS_MODE_AUTO);
+    
+     if(focusMode == null){
+         focusMode = findSettableValue(parameters.getSupportedFocusModes(),
+                                    Camera.Parameters.FOCUS_MODE_MACRO,
+                                    Camera.Parameters.FOCUS_MODE_EDOF);
+     }
+    
 		if (focusMode != null) {
 			parameters.setFocusMode(focusMode);
 		}
